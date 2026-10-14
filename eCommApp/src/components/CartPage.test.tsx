@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import CartPage from './CartPage';
 import { CartContext, CartItem } from '../context/CartContext';
+import userEvent from '@testing-library/user-event';
 
 // Mock components
 vi.mock('./Header', () => ({
@@ -71,5 +72,27 @@ describe('CartPage', () => {
         expect(screen.getByText('Price: $49.99')).toBeInTheDocument();
         expect(screen.getByText('Quantity: 2')).toBeInTheDocument();
         expect(screen.getByText('Quantity: 1')).toBeInTheDocument();
+    });
+
+    // Verify that an empty cart message is displayed when the cart is empty
+    it('displays empty cart message when cart is empty', () => {
+        renderWithCartContext({ ...mockCartContext, cartItems: [] });
+
+        expect(screen.getByText(/your cart is empty/i)).toBeInTheDocument();
+    });
+
+    it('processes the order and displays its items after checkout confirmation', async () => {
+        const user = userEvent.setup();
+        renderWithCartContext();
+
+        await user.click(screen.getByRole('button', { name: 'Checkout' }));
+        await user.click(screen.getByRole('button', { name: 'Confirm' }));
+
+        expect(mockCartContext.clearCart).toHaveBeenCalledTimes(1);
+        expect(
+            screen.getByRole('heading', { name: 'Your order has been processed!' })
+        ).toBeInTheDocument();
+        expect(screen.getByText('Test Product 1')).toBeInTheDocument();
+        expect(screen.getByText('Quantity: 2')).toBeInTheDocument();
     });
 });

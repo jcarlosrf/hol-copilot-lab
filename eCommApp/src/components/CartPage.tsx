@@ -4,6 +4,7 @@ import Footer from './Footer';
 import { CartContext, CartItem } from '../context/CartContext';
 import CheckoutModal from './CheckoutModal';
 
+
 const CartPage = () => {
     const [isCheckingOut, setIsCheckingOut] = useState(false);
     const [orderProcessed, setOrderProcessed] = useState(false);

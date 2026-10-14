@@ -1,56 +1,59 @@
-# The Daily Harvest
+# Guia de Início Rápido
 
-A modern TypeScript-based shopping website built with React and Vite.
+## Sobre o projeto
 
-## 🚀 Getting Started
+The Daily Harvest é uma loja virtual construída com React, TypeScript e Vite. A interface usa React Router para navegar entre páginas, e o estado do carrinho é compartilhado por meio de um contexto React.
 
-### Prerequisites
+## Pré-requisitos
 
-- Node.js (version 18 or higher)
-- npm or yarn
+- Node.js e npm.
+- O README atual declara Node.js 18 ou superior. Como o projeto usa `jsdom` 27 nos testes, Node.js 20 ou superior pode ser necessário para executar toda a suíte. Se houver erros relacionados à versão do Node, confira os requisitos das dependências instaladas.
 
-### Installation
+## Configuração local
 
-1. Navigate to the eCommApp directory:
-   ```bash
-   cd eCommApp
-   ```
+Abra um terminal na pasta `eCommApp` e execute:
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
-
-4. Open your browser and visit `http://localhost:3000`
-
-## 📁 Project Structure
-
-```
-eCommApp/
-├── public/              # Static assets
-├── src/
-│   ├── components/      # Reusable React components
-│   ├── types/          # TypeScript type definitions
-│   ├── utils/          # Utility functions
-│   ├── App.tsx         # Main App component
-│   ├── App.css         # App styles
-│   ├── main.tsx        # Application entry point
-│   └── index.css       # Global styles
-├── index.html          # HTML template
-├── package.json        # Project dependencies
-├── tsconfig.json       # TypeScript configuration
-├── vite.config.ts      # Vite configuration
-└── README.md          # This file
+```bash
+npm install
+npm run dev
 ```
 
-## 🛠️ Available Scripts
+O Vite abre o navegador automaticamente. O endereço configurado é `http://localhost:3000`.
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
+## Comandos principais
+
+Execute os comandos dentro de `eCommApp`:
+
+| Comando | Para que serve |
+| --- | --- |
+| `npm run dev` | Inicia o servidor de desenvolvimento. |
+| `npm run build` | Verifica os tipos TypeScript e gera a versão de produção em `dist/`. |
+| `npm run preview` | Serve localmente a versão de produção gerada por `build`. |
+| `npm run lint` | Executa o ESLint nos arquivos TypeScript e TSX. |
+| `npm run test` | Inicia o Vitest em modo interativo. |
+| `npm run test:run` | Executa os testes uma vez, sem modo interativo. |
+| `npm run test:ui` | Abre a interface visual do Vitest. |
+| `npm run test:coverage` | Executa os testes e gera relatório de cobertura. |
+
+## Estrutura e arquivos importantes
+
+- `src/main.tsx`: ponto de entrada; monta o React, o roteador e os estilos globais.
+- `src/App.tsx`: define as rotas e envolve a aplicação com `CartProvider`.
+- `src/components/`: páginas e componentes da interface. As rotas atuais incluem `/`, `/products`, `/login`, `/admin` e `/cart`.
+- `src/context/CartContext.tsx`: estado compartilhado do carrinho e operações para adicionar itens e limpar o carrinho.
+- `src/types/index.ts`: tipos centrais, como `Product`, `User`, `Address` e `Review`.
+- `src/utils/helpers.ts`: funções utilitárias, incluindo formatação de preços, cálculo do total e validação de e-mail.
+- `public/products/`: arquivos JSON do catálogo e imagens dos produtos.
+- `src/test/setup.ts`: configuração global dos testes.
+- `src/components/CartPage.test.tsx`: exemplo de teste de componente com Vitest e React Testing Library.
+- `vite.config.ts`: configuração do servidor, build e testes.
+- `tsconfig.json`: configuração do TypeScript, incluindo modo estrito.
+- `index.html`: documento HTML inicial e título da aplicação.
+- `package.json`: dependências e scripts disponíveis.
+
+## Fluxo recomendado para uma alteração
+
+1. Identifique a página ou o componente relacionado à mudança em `src/components/`.
+2. Consulte os tipos em `src/types/index.ts` e, para comportamentos compartilhados do carrinho, `src/context/CartContext.tsx`.
+3. Faça a alteração e execute os testes relevantes com `npm run test:run`.
+4. Antes de finalizar, valide o projeto com `npm run lint` e `npm run build`.
